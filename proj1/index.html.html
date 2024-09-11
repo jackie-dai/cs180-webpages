@@ -1,0 +1,703 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Project 1: Image Processing</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 237, 214, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 237, 214, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(249, 228, 188, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="5b737742-0ddc-4894-9d65-006b7e13251b" class="page sans"><header><h1 class="page-title">Project 1: Image Processing</h1><p class="page-description"></p></header><div class="page-body"><p id="1b9508c5-a2b5-4c54-9a75-00763e894566" class="">Jackie Dai, CS180 Fall 2024</p><p id="9dfd8b6f-4ab8-4616-bd01-10a106202971" class="">
+</p><p id="7541f275-d45e-4bd6-972b-f193193fd26c" class=""><strong>Background</strong></p><p id="2f726246-d714-418f-94b0-26ef97143940" class="">Sergei Mikhailovich Prokudin-Gorskii traveled the Russian empire taking colored photographs. In a world with out colored printing, he achieved his physical colored photos by taking three snapshots of the same scene but using three different color filters: a red filter, blue filter, and a green filter. The snapshots were projected onto a single glass plate in rapid succession, resulting in a colorful final image. In this project, we hope to utilize modern image processing and imitate the alignment and stacking of the three color channels of a image to produce a colorized output.  </p><p id="fa2c4759-e4e1-4193-ae4e-dbf1208ebe7b" class="">
+</p><p id="f7f9b570-d9fd-42fb-9c52-ac19531409ab" class=""><strong>Approach</strong></p><p id="df794551-18e2-49a4-96e6-4c4cd40838ea" class="">We are given images with separated color channels (RGB). First, I sliced the image into three separate versions (R, G, B). Next, I had to align and stack the three versions to output a fully colorized image. The trick to this is the alignment and there are many approaches to it.</p><p id="ad796a69-c515-4bb0-bbc2-ac8098c2fc83" class="">
+</p><p id="f10ce323-16f4-4602-b6bd-b729a88c2e32" class="">Here is a example of stacking the three color channels WITHOUT any alignment</p><figure id="97006cdb-8532-4727-ae70-c4b105f591eb" class="image"><a href="baseline.jpg"><img style="width:390px" src="baseline.jpg"/></a><figcaption>Cathedral.jpg</figcaption></figure><p id="3fd0fe53-74ae-4e65-9234-8e495a7d6a16" class="">It appears to be fuzzy which is due to the misalignment of the color channels. </p><p id="dcd9fe26-4bf1-4b17-a21d-c103d7d05048" class="">
+</p><p id="908fb9f3-fd4e-48fb-b172-110036d41cfa" class=""><strong>Single-scale Alignment</strong></p><p id="7c4c2c38-fd35-43a6-ab54-a9e0c20c1c6c" class="">Alignment starts with searching through a window of possible shifts in the x and y direction and checking the match between the displaced channel and the anchor channel (G). This method brute forces the search process by looping over a 15 pixel radius, scoring each displacement with a scoring metric, and taking the best score to align the two images. This method works fine for lower resolution images. However, it becomes a  exhaustively slow process when it comes to higher resolution images that require a larger search window.</p><p id="20ab8f5f-634c-4175-87fe-4428fb82c8fa" class="">
+</p><div id="f074dfc5-4cc5-4776-8ad5-ce4e82502cdf" class="column-list"><div id="ed7f9505-4735-4f85-a33d-37086ec37eb4" style="width:33.333333333333336%" class="column"><figure id="5a52954f-fccb-4ac0-998a-1f7ac5af489b" class="image"><a href="tobolsk_uncropped.jpg"><img style="width:331px" src="tobolsk_uncropped.jpg"/></a><figcaption>Tobolsk.jpg, r: (4, 1) b: (-3, -2), runtime: 1.7</figcaption></figure><p id="aca2ac96-9cc6-43fa-ad8d-26749cb13fbe" class="">
+</p></div><div id="ac924cf3-b2f3-4d4e-9fab-1c0de928a58a" style="width:33.333333333333336%" class="column"><figure id="6d36cc8b-e1ed-4222-9bcb-ffea1aac7538" class="image"><a href="monastery.jpg"><img style="width:331px" src="monastery.jpg"/></a><figcaption>monastery.jpg, r: (6,1), b: (6, 0) runtime: 1.4</figcaption></figure><p id="0b0395ad-e41e-4c2f-9c7c-3fb38920f33e" class="">
+</p></div><div id="a82816ba-81c0-48ab-9b85-62b3360cbb49" style="width:33.33333333333333%" class="column"><figure id="251acefb-f094-4fad-aff6-8cd473d31a26" class="image"><a href="SSD_img.jpg"><img style="width:205.3249969482422px" src="SSD_img.jpg"/></a><figcaption>cathedral.jpg, r：(7, 0), b：(-1, 1) runtime: 1.7</figcaption></figure></div></div><p id="db5204ed-5174-4281-84db-d9777e463d1f" class="">I tried three different scoring metrics to find the one who outputted the most satisfying image</p><ol type="1" id="43b5441f-edc5-4795-b298-6a62f46d1026" class="numbered-list" start="1"><li>Sum of square differences (SSD)<figure id="3efbe58e-e3d8-43c4-abe6-956dae3eaa43" class="image"><a href="SSD_img.jpg"><img style="width:390px" src="SSD_img.jpg"/></a></figure></li></ol><p id="d36f0a0a-cfd3-4770-beaa-d7ca1d48951f" class="">
+</p><ol type="1" id="50882a68-aa99-4629-8a47-f089725a21de" class="numbered-list" start="2"><li>Normalized cross correlation (NCC)<figure id="d53693f4-8950-4791-8c3c-a1f3fb6c79e8" class="image"><a href="ncc_img.jpg"><img style="width:390px" src="ncc_img.jpg"/></a></figure></li></ol><ol type="1" id="d1fcbeb9-74e0-497a-93a2-5b6966585be4" class="numbered-list" start="3"><li>Structural similarity index (SSIM)<figure id="8db1b5ce-a528-42d7-bb5b-2de5c971583c" class="image"><a href="SSIM_img.jpg"><img style="width:390px" src="SSIM_img.jpg"/></a></figure></li></ol><p id="77febebe-7231-4b96-ac6c-0c25b1f39024" class="">
+</p><p id="d9526d9d-dccd-4fea-be07-1523ad060502" class="">Ultimately, I found SSD to output the most satisfying  images, which is what I went with for the rest of the experiments.</p><figure id="40703242-260b-4886-b2b6-69efebb8d66b" class="equation"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>S</mi><mi>S</mi><mi>D</mi><mo>:</mo><mi>s</mi><mi>q</mi><mi>r</mi><mi>t</mi><mo stretchy="false">(</mo><mi>s</mi><mi>u</mi><mi>m</mi><mo stretchy="false">(</mo><mi>s</mi><mi>u</mi><mi>m</mi><mo stretchy="false">(</mo><mi>i</mi><mi>m</mi><mi>g</mi><mn>1</mn><mo>−</mo><mi>i</mi><mi>m</mi><mi>g</mi><mn>2</mn><msup><mo stretchy="false">)</mo><mn>2</mn></msup><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">SSD: sqrt(sum(sum(img1 - img2)^2))</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">SS</span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">s</span><span class="mord mathnormal" style="margin-right:0.03588em;">q</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">t</span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mord mathnormal">u</span><span class="mord mathnormal">m</span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mord mathnormal">u</span><span class="mord mathnormal">m</span><span class="mopen">(</span><span class="mord mathnormal">im</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.1141em;vertical-align:-0.25em;"></span><span class="mord mathnormal">im</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mord">2</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">))</span></span></span></span></span></div></figure><p id="5bd3aea1-2a2e-455f-94c6-e77de9f25087" class="">
+</p><p id="47f47b48-e6f3-42c4-9147-0ee7f1b6dd2b" class="">Next, I implemented a crop function and cropped all my channel’s borders by a factor of 0.1 before performing my alignments. This way I can get rid of the visual artifacts on the border left behind by the displacements.</p><figure id="192a14cd-b50b-400b-94e2-e535bbc3bae9" class="image"><a href="cathedral_cropped.jpg"><img style="width:312px" src="cathedral_cropped.jpg"/></a></figure><p id="148c0823-86bc-4a65-8c53-747cadbe485f" class="">
+</p><p id="61c65888-929c-4291-8baa-db59d4c6bc25" class=""><strong>The Problem </strong></p><p id="d9fbba11-56a8-4486-b829-eaa3786c6d5e" class="">When I moved on to the larger images in the dataset. The single scale implementation was not going to cut it. There were far too many pixels to check and required too large of a search window. church.tif took 3 minutes to load and had unsatisfying results.</p><p id="5cb6a2e2-055d-4d47-9478-baf999a9ee6b" class="">
+</p><p id="969b6a33-8318-43f5-a94d-cc1b042c2c99" class=""><strong>Pyramid Search</strong></p><p id="bef9b0ed-937e-4c4b-b961-abcf4486d1e7" class="">One solution to the long process times lies in pyramid imaging. This method downscales the image by a factor of 2 and performs the naive alignment algorithm on the lower resolution to find the best displacement vector. The displacement vector returned will be used to align the image for the previous scaled image. This will repeat recursively until we reach the original image size. Each window size to search for the alignment will become smaller each recursive frame as the resolution increases to save computational power. The alignment vectors for each resolution is passed up the recursive steps, adding to the final alignment. Additionally, each alignment vector passed up the recursive stack had to be scaled by a factor of 2 to account for the downscaled version of the image from which the alignment vector came from. </p><p id="ff52a294-d1ea-4f85-a96a-d2bdce8cb928" class=""><br/><br/><strong>Here are the results:</strong></p><div id="d5040234-c60d-4b79-97e4-cc3c1941968e" class="column-list"><div id="fb54744d-7c86-4caf-8aa4-b895d18c9046" style="width:50%" class="column"><figure id="08424961-4ade-4cb9-9583-8a7a72420afe" class="image"><a href="church_uncropped.jpg"><img style="width:3634px" src="church_uncropped.jpg"/></a><figcaption>Church.tif, r: (33, -8), b: (-25, -4), runtime: 7.6</figcaption></figure><p id="0cabf14c-a52e-4574-88fe-bcbdd869c963" class="">
+</p></div><div id="04db4e5d-923c-42b0-bba5-d32c2475f200" style="width:50%" class="column"><figure id="67d871b9-069b-4b83-900d-f7282ae0c7f2" class="image"><a href="harvesters.jpg"><img style="width:2947px" src="harvesters.jpg"/></a><figcaption>Harvesters.tif, r: (65,-3) b: (-59, -16), runtime: 8.3</figcaption></figure></div></div><div id="5aadba46-f221-493d-99ec-7a9ed384ca2b" class="column-list"><div id="225936d8-6f83-41e1-aadd-2d9dcaaca6e1" style="width:50%" class="column"><figure id="48676ab4-fa52-4e70-a6c8-d23183740774" class="image"><a href="icon.jpg"><img style="width:2993px" src="icon.jpg"/></a><figcaption>Icon.tif, r: (48, 5),  b: (-41, -17), runtime: 8.6</figcaption></figure></div><div id="08948b20-baa4-4d3c-8018-0bac5b11c46c" style="width:50%" class="column"><figure id="0ab2c202-24f7-4847-a54a-62b768e9fd34" class="image"><a href="lady.jpg"><img style="width:3009px" src="lady.jpg"/></a><figcaption>Lady.tif, r: (61, 3), b: (-51, -9), runtime: 9.3</figcaption></figure></div></div><p id="03a528ab-2c43-48c2-a8f2-a04f850de996" class="">
+</p><p id="0bacf2a6-d291-4b0d-ade6-918851babf9b" class="">
+</p><div id="eeb509f1-85ec-4012-8b12-45359353f78b" class="column-list"><div id="0c46725e-0e92-4f59-ad69-cdd8e185a6a9" style="width:50%" class="column"><figure id="ffc6b633-843c-4cad-98d4-cf31467921e7" class="image"><a href="melons.jpg"><img style="width:708px" src="melons.jpg"/></a><figcaption>Melons.tif, r: (93, 3), b: (-81, -10), runtime: 9.3</figcaption></figure></div><div id="3f5e95e1-732f-41aa-9ad9-27cab6c5265d" style="width:50%" class="column"><figure id="0f3d41ad-bb2c-4396-9509-31c1328bc26b" class="image"><a href="onion_church.jpg"><img style="width:331px" src="onion_church.jpg"/></a><figcaption>Onion_church.tif, r: (57, 10), b: (-51, -26), runtime: 10.6</figcaption></figure><p id="0b44b627-b7c9-45b7-9e78-31e70457e42c" class="">
+</p></div></div><p id="923468b3-d2a5-4fb5-b67e-0a24e0e3a0af" class="">
+</p><div id="1512ffd3-c56d-45d5-bb7c-44555dc54196" class="column-list"><div id="91f83a51-6c03-4d09-b54b-16ae7436a17b" style="width:50%" class="column"><figure id="516e68d0-48ae-4791-a5a4-e4f1b149c1ac" class="image"><a href="sculpture.jpg"><img style="width:3040px" src="sculpture.jpg"/></a><figcaption>Sculpture.tif r: (57, 10), b: (-51, -26), runtime: 9.5</figcaption></figure></div><div id="fb7ba772-b00f-41b5-b2f7-bdfae7271a09" style="width:50%" class="column"><figure id="0b17b61c-3afa-4e9e-8e7d-8019f4aa6a65" class="image"><a href="self_portrait.jpg"><img style="width:3048px" src="self_portrait.jpg"/></a><figcaption>self_portrait.tif, r: (107, -16), b: (-33, 11), runtime: 10.14</figcaption></figure></div></div><p id="831df1c8-7b2d-412e-b616-4fea4c10f555" class="">
+</p><div id="3aec01f7-d6cc-49e1-b7cc-8b67b200c100" class="column-list"><div id="6bd48e81-0c5b-4490-b819-48d7785b481b" style="width:50%" class="column"><figure id="7b2fed3b-87f0-4c6d-81ab-c2a1d3b5f603" class="image"><a href="three_generations.jpg"><img style="width:2972px" src="three_generations.jpg"/></a><figcaption>three_generations.tif, r: (58, -3), b: (-53, -14), runtime: 8.025</figcaption></figure></div><div id="f26643ef-acc9-445f-84dd-01b4575b9b33" style="width:50%" class="column"><figure id="6c231f27-7c3b-4c22-8e1d-f3acc23a5898" class="image"><a href="train.jpg"><img style="width:331px" src="train.jpg"/></a><figcaption>train.tif, r:  (43, 27), b: (-42, -5 ), runtime: 9.3</figcaption></figure></div></div><p id="bde914fa-844c-4ba1-a73b-180e26244a06" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
