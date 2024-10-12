@@ -1,0 +1,695 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Project 3: Morphing</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="11bb7adc-c6d1-80a5-bc93-cba8378aee17" class="page sans"><header><h1 class="page-title">Project 3: Morphing</h1><p class="page-description"></p></header><div class="page-body"><p id="11db7adc-c6d1-80a4-a580-c0571acc2653" class="">Jackie Dai - Fall 2024</p><figure id="11db7adc-c6d1-80f4-b184-df0266c3fa5c" class="image"><a href="ezgif.com-optimize.gif"><img style="width:290px" src="ezgif.com-optimize.gif"/></a></figure><h2 id="11bb7adc-c6d1-80e4-b72d-cc717c2ccf8c" class="">Abstract</h2><p id="11db7adc-c6d1-80bf-bca6-c2ec5bcb0d37" class="">This project explores the ins and outs of morphing. In order to execute a morph we needed to triangulate two images. This way we can find warp an average geometry and cross dissolve the colors to produce a morphing effect.</p><h2 id="11db7adc-c6d1-8029-bcd1-e247843226c6" class="">Part 1: Defining Correspondences</h2><p id="11db7adc-c6d1-80a1-8e94-fdbea54ac0f0" class="">To begin our morphing journey, I picked out these two gorgeous photos of Barack Obama and Gary Drinkard.</p><div id="11db7adc-c6d1-80e3-a033-c095a245bcd5" class="column-list"><div id="11db7adc-c6d1-807d-9fc7-f6e9c4729848" style="width:50%" class="column"><figure id="11db7adc-c6d1-8007-9e3c-e569da8e873c" class="image"><a href="obama.png"><img style="width:264.6000061035156px" src="obama.png"/></a><figcaption>Barack Obama</figcaption></figure></div><div id="11db7adc-c6d1-8013-a565-e5299e2326f7" style="width:50%" class="column"><figure id="11db7adc-c6d1-8080-a5d4-fcfc8713751d" class="image"><a href="gary.png"><img style="width:575.2000122070312px" src="gary.png"/></a><figcaption>Gary Drinkard</figcaption></figure></div></div><p id="11db7adc-c6d1-8092-8ce8-eeab84d2a3c4" class="">Putting these images through a student made tool, I defined correspondence points for both images and loaded the points into python where I called <code>scipy.spatial.delaunay</code> to triangulate the points. Below is the triangulation visualized</p><figure id="11bb7adc-c6d1-8060-8b6e-e401c9219072" class="image"><a href="image.png"><img style="width:692px" src="image.png"/></a></figure><p id="11db7adc-c6d1-80a6-868e-e41801bf7033" class="">
+</p><h2 id="11cb7adc-c6d1-80f1-8e49-c77ffba1c5a1" class="">Part 2: Computing the “Mid-way Face”</h2><p id="11db7adc-c6d1-8060-8030-d9367db44124" class="">To prepare for the next task, I implemented one step of the morphing sequence, the “mid-way face”. This first involved averaging the correspondence points between the two images to get the average shape. Here I used <code>warp_frac=0.5</code> .<div class="indented"><p id="11db7adc-c6d1-803b-b4a8-fe9327049a4c" class="">My next task was to fill in the color of the midway face sampled from <code>img1</code>. But first, I had to calculate an affine transformation between the  <code>img1</code>  and <code>mid_face</code> so that I could find an inverse transformation. The inverse transformation is important because I need to use it to warp from coordinates on the <code>mid_face</code> to <code>img1.</code>  I found these warped coordinates from, coordinates I found on the mid face using <code>skimage.draw.polygon.</code> </p><p id="11db7adc-c6d1-8018-8cfb-fd1c8681b838" class=""><br/>However, by warping the coordinates from the midface to source, I would get coordinates in between points in floats. Meaning that I had to interpolate the nearby pixel values to sample a color. My initial approach to filling in each triangle of the midway face was by using <br/><code>scipy.interpolate.griddata(points, values, xi, method=&quot;nearest&quot;)</code> . Points were the source coordinates and values are the color pixel values associated to each coordinate. xi are which points to interpolate. At first, I just passed in an empty 2d array of coordinates for the whole image. This was extremely costly, taking ~6 minutes to generate one image. I knew this was not viable as I needed to generate 45 frames to produce my morphing sequence. Which would like 6 * 45 minutes.<div class="indented"><p id="11db7adc-c6d1-8099-a460-d04da13cc47f" class="">So I optimized my approach by passing in only coordinates of the triangle I was currently filling in. This cut my runtime for generating one image to ~9 seconds. Finally, I repeated the same process above with <code>img2</code> and the midway face, blending the two outputs together with <code>dissolve_frac=0.5</code></p></div></p><p id="11db7adc-c6d1-8028-aa3f-fb650236d082" class="">
+</p><p id="11db7adc-c6d1-809c-8bf5-d0765278e52d" class="">Below is the result of my midway face morph</p><figure id="11db7adc-c6d1-80ed-9e41-eec9d5111296" class="image"><a href="midface.png"><img style="width:551.2000122070312px" src="midface.png"/></a></figure><p id="11db7adc-c6d1-8017-9af6-df33510fc2fe" class="">
+</p></div></p><h2 id="11cb7adc-c6d1-805b-8ea1-f908a285a4a5" class="">Part 3: The Morph Sequence</h2><p id="11db7adc-c6d1-8034-b564-f0b7ad4d6407" class="">To create the morph animation, I simply interpolated my <code>warp_frac</code> and <code>wrap_dissolve</code> from 0 to 1 and generated a total of 45 frames to produce a smooth morphing sequence from Obama to Gary.</p><figure id="11db7adc-c6d1-80e6-ad6e-f27dd4317209" class="image"><a href="obama_gary_morph_loop.gif"><img style="width:320px" src="obama_gary_morph_loop.gif"/></a></figure><h2 id="11db7adc-c6d1-80c4-9ffc-fe60fca5f266" class="">Part 4: The “Mean face” of a Population</h2><p id="11cb7adc-c6d1-8009-8df4-dd4e9ff31ab9" class="">Here, I took the Danes population sample from the internet averaged all the faces to create a “Mean Face”. The tedious part about this was plotting the corresponding points from online using matplotlib so that I could follow the order of corresponding points on my own face.</p><figure id="11cb7adc-c6d1-8008-b48b-ef3cd1ba7962" class="image"><a href="image%201.png"><img style="width:527.1875px" src="image%201.png"/></a></figure><p id="11db7adc-c6d1-807d-8ab6-f81b9f32a4d9" class="">
+</p><p id="11db7adc-c6d1-80ad-852e-dcb987a0e9c6" class="">Here are all the faces from the dataset</p><div id="11db7adc-c6d1-80c5-88e1-dfb223e62404" class="column-list"><div id="11db7adc-c6d1-8026-83b5-d574b254c336" style="width:25%" class="column"><figure id="11db7adc-c6d1-807d-8547-f9f70e89a52d" class="image"><a href="14b.jpg"><img style="width:161.0625px" src="14b.jpg"/></a></figure></div><div id="11db7adc-c6d1-80cc-a676-fd46bc42460f" style="width:25%" class="column"><figure id="11db7adc-c6d1-80f3-8506-faccbc050786" class="image"><a href="15b.jpg"><img style="width:161.0625px" src="15b.jpg"/></a></figure></div><div id="11db7adc-c6d1-8083-8b11-f1240e61062a" style="width:25%" class="column"><figure id="11db7adc-c6d1-8094-8c4a-c99de5f0f94a" class="image"><a href="16b.jpg"><img style="width:161.0625px" src="16b.jpg"/></a></figure></div><div id="11db7adc-c6d1-8028-8d72-d65f1bd737a4" style="width:25%" class="column"><figure id="11db7adc-c6d1-8015-8b6d-c3d92f002539" class="image"><a href="17b.jpg"><img style="width:110.5px" src="17b.jpg"/></a></figure></div></div><div id="11db7adc-c6d1-8053-9149-f8675f0dad9f" class="column-list"><div id="11db7adc-c6d1-806a-ae06-d302fbccf2d4" style="width:25%" class="column"><figure id="11db7adc-c6d1-8027-b185-eb400a914346" class="image"><a href="18b.jpg"><img style="width:205.3125px" src="18b.jpg"/></a></figure></div><div id="11db7adc-c6d1-8043-8edd-c785282f92cc" style="width:25%" class="column"><figure id="11db7adc-c6d1-8001-ac50-eefc81adfde5" class="image"><a href="19b.jpg"><img style="width:205.3125px" src="19b.jpg"/></a></figure></div><div id="11db7adc-c6d1-804a-af7b-d5fc3612955f" style="width:25%" class="column"><figure id="11db7adc-c6d1-80f8-b33f-ced84333e37a" class="image"><a href="20b.jpg"><img style="width:205.3125px" src="20b.jpg"/></a></figure></div><div id="11db7adc-c6d1-8037-8f50-f003364e7782" style="width:25%" class="column"><figure id="11db7adc-c6d1-80fc-94e7-edec1159f0cd" class="image"><a href="21b.jpg"><img style="width:142.5px" src="21b.jpg"/></a></figure></div></div><div id="11db7adc-c6d1-80a4-951d-dc95f5489ab1" class="column-list"><div id="11db7adc-c6d1-8015-98d0-d22a28af837d" style="width:25%" class="column"><figure id="11db7adc-c6d1-8050-8aef-f4aa783f39cd" class="image"><a href="23b.jpg"><img style="width:205.3125px" src="23b.jpg"/></a></figure></div><div id="11db7adc-c6d1-801e-abe2-c1c24053eac8" style="width:25%" class="column"><figure id="11db7adc-c6d1-8048-9632-d81a41e262d0" class="image"><a href="24b.jpg"><img style="width:205.3125px" src="24b.jpg"/></a></figure></div><div id="11db7adc-c6d1-8024-bcb6-fa0d90787ac0" style="width:25%" class="column"><figure id="11db7adc-c6d1-8065-91fb-c8c7d231142b" class="image"><a href="25b.jpg"><img style="width:205.3125px" src="25b.jpg"/></a></figure></div><div id="11db7adc-c6d1-80ed-ae6d-c4ef90e0764b" style="width:25%" class="column"><figure id="11db7adc-c6d1-80f9-bfde-df7f3317f057" class="image"><a href="26b.jpg"><img style="width:142.5px" src="26b.jpg"/></a></figure></div></div><div id="11db7adc-c6d1-8052-9336-edde2f758cce" class="column-list"><div id="11db7adc-c6d1-807b-a571-c9f9f3525921" style="width:25%" class="column"><figure id="11db7adc-c6d1-80da-88ed-c19c4a4c658e" class="image"><a href="27b.jpg"><img style="width:205.3125px" src="27b.jpg"/></a></figure></div><div id="11db7adc-c6d1-808b-84ad-e904920a6530" style="width:25%" class="column"><figure id="11db7adc-c6d1-8018-94b1-e9cbc8362fac" class="image"><a href="28b.jpg"><img style="width:205.3125px" src="28b.jpg"/></a></figure></div><div id="11db7adc-c6d1-80f8-8b68-df3ed622ef99" style="width:25%" class="column"><figure id="11db7adc-c6d1-8049-9049-d9b265bce7c4" class="image"><a href="29b.jpg"><img style="width:205.3125px" src="29b.jpg"/></a></figure></div><div id="11db7adc-c6d1-80bf-a9f7-c5bfa4f45fe3" style="width:25%" class="column"><figure id="11db7adc-c6d1-801b-b3f1-e884f9e9ed57" class="image"><a href="30b.jpg"><img style="width:142.5px" src="30b.jpg"/></a></figure></div></div><div id="11db7adc-c6d1-8025-95fc-e451bb074232" class="column-list"><div id="11db7adc-c6d1-80e5-a0c4-e6c7c741d55f" style="width:25%" class="column"><figure id="11db7adc-c6d1-800a-af15-d632eb06d611" class="image"><a href="31b.jpg"><img style="width:205.3125px" src="31b.jpg"/></a></figure></div><div id="11db7adc-c6d1-8051-8ec0-cf12c0365d7c" style="width:25%" class="column"><figure id="11db7adc-c6d1-80b7-9196-ca2fb93e7d89" class="image"><a href="32b.jpg"><img style="width:205.3125px" src="32b.jpg"/></a></figure></div><div id="11db7adc-c6d1-8076-b55c-e53e4b1a540f" style="width:25%" class="column"><figure id="11db7adc-c6d1-80a5-837c-ef2bc652de9f" class="image"><a href="1b.jpg"><img style="width:205.3125px" src="1b.jpg"/></a></figure></div><div id="11db7adc-c6d1-80fb-996f-d6e3b9f80c55" style="width:25%" class="column"><figure id="11db7adc-c6d1-804d-b05f-d46f83f61370" class="image"><a href="2b.jpg"><img style="width:142.5px" src="2b.jpg"/></a></figure></div></div><div id="11db7adc-c6d1-803d-b6f0-dc49b3b94aa1" class="column-list"><div id="11db7adc-c6d1-8003-832d-e27eb3f88b0a" style="width:25%" class="column"><figure id="11db7adc-c6d1-807c-a492-c99efc17e5ac" class="image"><a href="3b.jpg"><img style="width:205.3125px" src="3b.jpg"/></a></figure></div><div id="11db7adc-c6d1-802a-8517-d0feb3391a36" style="width:25%" class="column"><figure id="11db7adc-c6d1-8073-a1d7-d4b8517b4624" class="image"><a href="4b.jpg"><img style="width:205.3125px" src="4b.jpg"/></a></figure></div><div id="11db7adc-c6d1-80cf-99b4-e90a5007aa4a" style="width:25%" class="column"><figure id="11db7adc-c6d1-808c-bfae-c2cb5810e601" class="image"><a href="5b.jpg"><img style="width:205.3125px" src="5b.jpg"/></a></figure></div><div id="11db7adc-c6d1-8092-9e74-caa8517ac171" style="width:25%" class="column"><figure id="11db7adc-c6d1-80ca-a749-eb5fa19bc977" class="image"><a href="6b.jpg"><img style="width:142.5px" src="6b.jpg"/></a></figure></div></div><div id="11db7adc-c6d1-80c5-8b89-c0c1e53c4068" class="column-list"><div id="11db7adc-c6d1-8001-80ea-f6ed316282f5" style="width:25%" class="column"><figure id="11db7adc-c6d1-801b-a82f-d8c6e8cc6112" class="image"><a href="7b.jpg"><img style="width:205.3125px" src="7b.jpg"/></a></figure></div><div id="11db7adc-c6d1-80ca-9490-c603d409a679" style="width:25%" class="column"><figure id="11db7adc-c6d1-80b0-8abf-f1b1138d50fd" class="image"><a href="8b.jpg"><img style="width:205.3125px" src="8b.jpg"/></a></figure></div><div id="11db7adc-c6d1-80e7-936f-eb643616265f" style="width:25%" class="column"><figure id="11db7adc-c6d1-80dd-a73e-d74147a2464a" class="image"><a href="9b.jpg"><img style="width:205.3125px" src="9b.jpg"/></a></figure></div><div id="11db7adc-c6d1-800d-8064-db1afa0c6cec" style="width:25%" class="column"><figure id="11db7adc-c6d1-808a-9eb4-d6b9197b487e" class="image"><a href="10b.jpg"><img style="width:142.5px" src="10b.jpg"/></a></figure></div></div><div id="11db7adc-c6d1-80cc-9f8e-c4a8e6743dfd" class="column-list"><div id="11db7adc-c6d1-805d-8224-ce5e53c8f4dc" style="width:25%" class="column"><figure id="11db7adc-c6d1-80f1-86a0-c3ffc6476578" class="image"><a href="11b.jpg"><img style="width:205.3125px" src="11b.jpg"/></a></figure></div><div id="11db7adc-c6d1-800b-9d86-f3eaeca7dab4" style="width:25%" class="column"><figure id="11db7adc-c6d1-80d2-885f-c3703e5b457a" class="image"><a href="12b.jpg"><img style="width:205.3125px" src="12b.jpg"/></a></figure></div><div id="11db7adc-c6d1-80e5-9da3-d45f9555643b" style="width:25%" class="column"><figure id="11db7adc-c6d1-80f6-a8e5-f19251260291" class="image"><a href="13b.jpg"><img style="width:205.3125px" src="13b.jpg"/></a></figure></div><div id="11db7adc-c6d1-8097-9017-fa60de2cf404" style="width:25%" class="column"><figure id="11db7adc-c6d1-808f-8656-c1124aad754d" class="image"><a href="22b.jpg"><img style="width:144px" src="22b.jpg"/></a></figure></div></div><p id="11db7adc-c6d1-80b1-bda6-d822e707c544" class="">
+</p><p id="11db7adc-c6d1-8079-89f7-d3bebee9aace" class="">Mean face</p><figure id="11db7adc-c6d1-80f4-8acb-ff6953fb0966" class="image"><a href="4.mean_face_pop.png"><img style="width:250px" src="4.mean_face_pop.png"/></a></figure><p id="11db7adc-c6d1-8041-bfcf-d782f41a027a" class="">
+</p><p id="11db7adc-c6d1-806d-b53f-ec0d663adba6" class="">And then I morphed the mean face onto mine and vice versa</p><div id="11db7adc-c6d1-80c2-a088-e0ad5d6840c2" class="column-list"><div id="11db7adc-c6d1-8030-b2e8-c8888acd9110" style="width:50%" class="column"><figure id="11db7adc-c6d1-802d-b80d-e1e19ac9ab76" class="image"><a href="mean_jackie.png"><img style="width:240px" src="mean_jackie.png"/></a></figure></div><div id="11db7adc-c6d1-8047-8d90-c14437a336ba" style="width:50%" class="column"><figure id="11db7adc-c6d1-80d6-ba6a-ef125a24dca4" class="image"><a href="4.warp_face.png"><img style="width:250px" src="4.warp_face.png"/></a></figure></div></div><p id="11db7adc-c6d1-80d0-b8e7-ef690ebd5e33" class="">
+</p><h2 id="11db7adc-c6d1-8085-8e58-c6930793364e" class="">Part 5: Caricatures: Extrapolating from the Mean</h2><p id="11db7adc-c6d1-8095-94f0-ca3d4bac3473" class="">I created a caricature of my face by increasing the <code>wrap_frac</code> parameter. The results were interesting</p><p id="11db7adc-c6d1-80c4-b139-d0ee1cdd6b08" class="">
+</p><div id="11db7adc-c6d1-8048-b404-ca6b10ea1eda" class="column-list"><div id="11db7adc-c6d1-8028-8267-de4f7e3d6aa7" style="width:50%" class="column"><figure id="11db7adc-c6d1-807e-997b-ec3d3a7e90ea" class="image"><a href="5-0.5.png"><img style="width:250px" src="5-0.5.png"/></a></figure></div><div id="11db7adc-c6d1-80f8-b17f-d9a488e98274" style="width:50%" class="column"><figure id="11db7adc-c6d1-80dd-bd75-d2e7a6247395" class="image"><a href="5-0.75.png"><img style="width:250px" src="5-0.75.png"/></a></figure></div></div><div id="11db7adc-c6d1-80f1-a6e8-d0533f4f1d0e" class="column-list"><div id="11db7adc-c6d1-8024-901c-efdf1fa5c53c" style="width:50%" class="column"><figure id="11db7adc-c6d1-8042-8758-c3f1539d2417" class="image"><a href="5-1.png"><img style="width:250px" src="5-1.png"/></a></figure></div><div id="11db7adc-c6d1-806d-9d50-d0149f449d61" style="width:50%" class="column"><figure id="11db7adc-c6d1-80f3-9230-dcaf47445d7e" class="image"><a href="5-1.25.png"><img style="width:250px" src="5-1.25.png"/></a></figure></div></div><div id="11db7adc-c6d1-8069-a06b-d82beda7bd5f" class="column-list"><div id="11db7adc-c6d1-80dc-b3b0-eeec521f1e1b" style="width:50%" class="column"><figure id="11db7adc-c6d1-8002-9847-fb2a4a868f9b" class="image"><a href="5-1.5-morph.png"><img style="width:250px" src="5-1.5-morph.png"/></a></figure></div><div id="11db7adc-c6d1-8032-8895-f053f0ada666" style="width:50%" class="column"><figure id="11db7adc-c6d1-8051-b7ad-efdd5380a24b" class="image"><a href="5-1.75.png"><img style="width:250px" src="5-1.75.png"/></a></figure></div></div><p id="11db7adc-c6d1-80a3-b77d-efb47b71ef9f" class="">
+</p><h2 id="11db7adc-c6d1-8041-8f8f-df7e1192a23c" class="">Bells and Whistles</h2><p id="11db7adc-c6d1-8021-ac72-fbbb6165569c" class="">For my bells and whistles I created an 10 year aging morph from my 19 year old self to 4 year old me.</p><p id="11db7adc-c6d1-80d3-8d7d-e19720b24ba8" class="">Here is the midway face and morph sequence</p><div id="11db7adc-c6d1-80df-8dc9-fb5cba1523f5" class="column-list"><div id="11db7adc-c6d1-80c5-981a-f98555fa4000" style="width:33.333333333333336%" class="column"><figure id="11db7adc-c6d1-8029-afd4-db3b52eb1ebb" class="image"><a href="child.png"><img style="width:264.5874938964844px" src="child.png"/></a></figure></div><div id="11db7adc-c6d1-80d7-a0d1-f8ce91dfb56e" style="width:33.333333333333336%" class="column"><figure id="11db7adc-c6d1-80ad-b25f-df4292789580" class="image"><a href="bells.mid_face.png"><img style="width:264.5874938964844px" src="bells.mid_face.png"/></a></figure></div><div id="11db7adc-c6d1-809c-9e92-cba6c3ad0abd" style="width:33.33333333333333%" class="column"><figure id="11db7adc-c6d1-80dc-9bb7-dc36d315adad" class="image"><a href="jackie.jpg"><img style="width:264.5874938964844px" src="jackie.jpg"/></a></figure></div></div><p id="11db7adc-c6d1-808c-be3c-f117576a143a" class="">
+</p><figure id="11db7adc-c6d1-800f-8a49-fd758420cbac" class="image"><a href="ezgif.com-optimize%201.gif"><img style="width:264.5874938964844px" src="ezgif.com-optimize%201.gif"/></a></figure><p id="11db7adc-c6d1-8090-9423-fcbf3ce31c61" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
