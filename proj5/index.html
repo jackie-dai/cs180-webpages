@@ -1,0 +1,732 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Project 5 - Diffusion Models</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="148b7adc-c6d1-8072-bc07-e77033361c8f" class="page sans"><header><h1 class="page-title">Project 5 - Diffusion Models</h1><p class="page-description"></p></header><div class="page-body"><p id="148b7adc-c6d1-802a-9f27-fc7a0ad2b5a3" class="">Website: <a href="https://jackie-dai.github.io/cs180-webpages/proj5/index.html">https://jackie-dai.github.io/cs180-webpages/proj5/index.html</a></p><p id="149b7adc-c6d1-805d-8599-d3e154f6ecaa" class="">Jackie Dai - Fall 2024</p><h1 id="148b7adc-c6d1-8069-b6ba-f2e3a1cc19eb" class="">Part 1</h1><h2 id="148b7adc-c6d1-8096-a06f-dd1359ed57f9" class="">1.1 - Forward Process</h2><p id="148b7adc-c6d1-803b-bc38-ff59ddf72aac" class="">Forwarding in diffusion models means to take a image and apply a certain amount of noise to it. This is achieved by the equation</p><figure id="148b7adc-c6d1-809d-a6b2-c7dd0d0ed0b2" class="image"><a href="image.png"><img style="width:431.1750183105469px" src="image.png"/></a></figure><p id="148b7adc-c6d1-802f-ae80-d0069069ecd1" class="">Here are results of applying noise at t=250,500,750</p><figure id="148b7adc-c6d1-8004-885c-f822e8ebccc1" class="image"><a href="1.1.png"><img style="width:355px" src="1.1.png"/></a></figure><p id="148b7adc-c6d1-800b-8d1e-d21bc5c170ce" class="">
+</p><h2 id="148b7adc-c6d1-8065-8d4f-fe44e0446e5e" class="">1.2 - Classical Denoising</h2><p id="148b7adc-c6d1-8009-88fd-f64ef69634fb" class="">The reverse of forwarding is denoising <code>x_t-1</code> . That is taking a image and taking away some amount of the noise. One method is by applying a Gaussian blur.</p><p id="148b7adc-c6d1-804b-b926-d75af29c7ab4" class="">
+</p><p id="148b7adc-c6d1-80de-b21b-f3fbadada2bc" class="">Here is the result of applying a Gaussian blur to images at t=250, 500, 750</p><figure id="148b7adc-c6d1-80a2-883f-f9d741142570" class="image"><a href="1.2.png"><img style="width:286px" src="1.2.png"/></a></figure><h2 id="148b7adc-c6d1-8062-9082-d5ee9c107992" class="">1.3 - One-step Denoising</h2><p id="148b7adc-c6d1-8038-b35b-fde4c69ae071" class="">Using a pre-trained diffusion model, we can attempt to predict the amount of noise that was added to an image, and remove the noise. </p><p id="148b7adc-c6d1-8032-893b-d7c7a64e99d0" class="">
+</p><figure id="148b7adc-c6d1-80c6-b22b-fe93a725c560" class="image"><a href="1.3.png"><img style="width:265px" src="1.3.png"/></a></figure><h2 id="148b7adc-c6d1-8023-8d2a-e7dd61f7f502" class="">1.4 - Iterative Denoising</h2><p id="148b7adc-c6d1-8019-8dc1-eaa1f9c7aab4" class="">In order to achieve better results, we utilize our previous method but apply it iteratively to produce cleaner image. </p><p id="148b7adc-c6d1-807a-b51d-fdc49eefc439" class=""><div class="indented"><p id="148b7adc-c6d1-809c-97db-c2cfaecd3c1d" class="">To save on computational power, we can skip timesteps by defining a <code>strided_timesteps</code> array to keep track of the timesteps we want to use. Here I am skipping every 10 timesteps.</p></div></p><figure id="148b7adc-c6d1-80d1-b785-c8f6b676caee" class="image"><a href="1.4.png"><img style="width:443px" src="1.4.png"/></a></figure><h2 id="148b7adc-c6d1-80e7-aee7-f3e5990a5983" class="">1.5 - Diffusion Model Sampling</h2><p id="148b7adc-c6d1-8029-bc1e-d836acb03a8c" class="">Now, we can generate random images by inputting a completely noisy image and denoise it based upon a prompt, “a high quality photo”.</p><figure id="148b7adc-c6d1-8007-848b-f8264d726630" class="image"><a href="1.5_horizontal.png"><img style="width:440px" src="1.5_horizontal.png"/></a></figure><h2 id="148b7adc-c6d1-80d2-aa6f-fe1390d8ab04" class="">1.6 - Classifier-Free Guidance (CFG)</h2><p id="148b7adc-c6d1-8023-8807-d06cee46b990" class="">The results above are of low quality, but we can up the quality by using “classifier free guidance”. </p><p id="148b7adc-c6d1-8034-8dcc-d8c3d8999f55" class="">
+</p><p id="148b7adc-c6d1-80aa-a77d-e88c6a2d9442" class="">This is done by estimating conditional and unconditional noise to get our final noise.</p><figure id="148b7adc-c6d1-809c-bdf7-f8f40961b8d4" class="image"><a href="image%201.png"><img style="width:238px" src="image%201.png"/></a></figure><figure id="148b7adc-c6d1-80af-96ed-e30b29981671" class="image"><a href="1.6_horizontal.png"><img style="width:435px" src="1.6_horizontal.png"/></a></figure><h2 id="148b7adc-c6d1-8074-9f49-e583216bdd6c" class="">1.7 - Image-to-image Translation</h2><p id="148b7adc-c6d1-8030-ae33-f7dec1954b65" class="">In order for diffusion models to recover a noisy image, it has to “make-up” what to replace the noisy pixels with based upon its training and prompt. Here, we can play around with the model by passing in an image and noise it a bit, then see what the model comes up with. </p><figure id="148b7adc-c6d1-8099-b39f-da31dbf4d8bd" class="image"><a href="1.7_test_img.png"><img style="width:515px" src="1.7_test_img.png"/></a><figcaption>Campanile (test_img)</figcaption></figure><p id="148b7adc-c6d1-8058-9d8a-c750e0c5842e" class="">
+</p><p id="148b7adc-c6d1-80bf-9d89-d0bca7a2dbe0" class="">
+</p><figure id="148b7adc-c6d1-8012-808f-c0dabd42774a" class="image"><a href="1.7_img1.png"><img style="width:707.9874877929688px" src="1.7_img1.png"/></a><figcaption>My ID photo</figcaption></figure><p id="148b7adc-c6d1-806b-9537-e5513a09a5a5" class="">
+</p><figure id="148b7adc-c6d1-80d3-ac6c-d49d772cc4ed" class="image"><a href="1.7_img2.png"><img style="width:707.9874877929688px" src="1.7_img2.png"/></a><figcaption>A photoshoot I did in high school</figcaption></figure><p id="148b7adc-c6d1-8009-a938-e5f1e2cdeb9e" class="">
+</p><h2 id="148b7adc-c6d1-8092-91b0-c35d538a8d10" class="">1.7.1 Editing Hand-Drawn and Web Images</h2><p id="148b7adc-c6d1-80cd-9332-ce1f62c0f008" class="">We can have a bit more fun with this by taking hand drawn images. <br/><br/>Below are a couple of more own drawings followed by a web image.<br/></p><div id="148b7adc-c6d1-8034-957c-d34e53cefdd2" class="column-list"><div id="148b7adc-c6d1-8050-95ac-da9fb0f50960" style="width:50%" class="column"><figure id="148b7adc-c6d1-808c-b401-ff38dfd24643" class="image"><a href="1.7.1_face_output.png"><img style="width:330.95001220703125px" src="1.7.1_face_output.png"/></a></figure></div><div id="148b7adc-c6d1-80dc-b317-d0672e7c2b7b" style="width:50%" class="column"><figure id="148b7adc-c6d1-808c-94df-d3d3be1066af" class="image"><a href="1.7.1_face.png"><img style="width:170px" src="1.7.1_face.png"/></a></figure></div></div><p id="148b7adc-c6d1-8030-b23a-d69e4292e83f" class="">
+</p><figure id="148b7adc-c6d1-80b3-838f-c2853e6ae8ca" class="image"><a href="e2eb31e5-e7c6-4b46-a497-8c44c727b2b9.png"><img style="width:708px" src="e2eb31e5-e7c6-4b46-a497-8c44c727b2b9.png"/></a></figure><p id="148b7adc-c6d1-806d-b6b6-e6585ffa2ae7" class="">
+</p><div id="148b7adc-c6d1-8097-b2da-f4a196892603" class="column-list"><div id="148b7adc-c6d1-800b-9d67-d05032854044" style="width:50%" class="column"><figure id="148b7adc-c6d1-808b-aedf-f09c0366104c" class="image"><a href="1.7.2-web.png"><img style="width:330.9624938964844px" src="1.7.2-web.png"/></a></figure></div><div id="148b7adc-c6d1-8049-b459-c4b777591705" style="width:50%" class="column"><figure id="148b7adc-c6d1-80ac-adeb-d5e655a087fc" class="image"><a href="1.7.1_hello_kitty.png"><img style="width:64px" src="1.7.1_hello_kitty.png"/></a></figure></div></div><p id="148b7adc-c6d1-8085-b20d-d7b440a6ca8a" class="">
+</p><h2 id="148b7adc-c6d1-803b-9286-c00f3b9ccdc7" class="">1.7.2 Inpainting</h2><p id="148b7adc-c6d1-8088-ab55-df4761796b3b" class="">This SDEditing can also be done only to a portion of our image. We can do this by masking a part of the image and letting the model recover the masked part and leave the rest of the image intact.</p><p id="148b7adc-c6d1-8084-a3eb-fb7227d4d9eb" class="">
+</p><figure id="148b7adc-c6d1-80e7-85cf-e3272392679d" class="image"><a href="image%202.png"><img style="width:268px" src="image%202.png"/></a></figure><figure id="148b7adc-c6d1-8090-a16e-c34f0fe20042" class="image"><a href="1.7.3_test_im.png"><img style="width:515px" src="1.7.3_test_im.png"/></a></figure><p id="148b7adc-c6d1-803b-afe7-de5c4e70af29" class="">
+</p><p id="148b7adc-c6d1-804f-ae37-eea1bec39767" class="">
+</p><figure id="148b7adc-c6d1-80bb-99fe-c3d67df045d7" class="image"><a href="image%203.png"><img style="width:287px" src="image%203.png"/></a></figure><p id="148b7adc-c6d1-8076-bf65-c4a7bcd779b9" class="">
+</p><figure id="148b7adc-c6d1-8035-b703-f4d67adafeac" class="image"><a href="image%204.png"><img style="width:518px" src="image%204.png"/></a></figure><p id="148b7adc-c6d1-80ca-81d5-d06d64d598c9" class="">
+</p><figure id="148b7adc-c6d1-8093-840c-f1c3db252b5b" class="image"><a href="image%205.png"><img style="width:271px" src="image%205.png"/></a></figure><figure id="148b7adc-c6d1-8014-a2f6-eeed0784e8ee" class="image"><a href="image%206.png"><img style="width:512px" src="image%206.png"/></a></figure><h2 id="148b7adc-c6d1-80b5-b3d1-f4353331bf42" class="">1.7.3 Text-Conditional Image-to-image Translation</h2><p id="148b7adc-c6d1-80ce-b3e9-ec23e94adc83" class="">So far, we have been using the same prompt, “a high quality photo”. Let’s change up the prompts and see how our results change.</p><p id="148b7adc-c6d1-80a0-921f-ec6fe7896f6c" class="">
+</p><p id="148b7adc-c6d1-8035-b974-e5df7ee5945b" class="">
+</p><p id="148b7adc-c6d1-805b-b24a-ef9e28d93d05" class="">Prompt = “a rocket ship”</p><figure id="148b7adc-c6d1-80e4-8f00-f61f81c46d42" class="image"><a href="a116a153-090a-4696-bc62-ec3c9224ec02.png"><img style="width:708px" src="a116a153-090a-4696-bc62-ec3c9224ec02.png"/></a></figure><p id="148b7adc-c6d1-8050-bc20-eba6bc625a3d" class="">
+</p><p id="148b7adc-c6d1-80c5-a0b8-cb12103d2504" class="">Prompt=”a man wearing a hat”</p><figure id="148b7adc-c6d1-8077-be2a-e3ddeaf64904" class="image"><a href="image%207.png"><img style="width:519px" src="image%207.png"/></a></figure><p id="148b7adc-c6d1-80d9-b96e-e88e9a0f02a1" class="">Prompt = “an oil painting of an old man”</p><figure id="148b7adc-c6d1-80b2-a0a6-c263f4606974" class="image"><a href="image%208.png"><img style="width:521px" src="image%208.png"/></a></figure><p id="148b7adc-c6d1-805e-94e8-d7c5b59dab88" class="">
+</p><h2 id="148b7adc-c6d1-80d8-a058-e3b3b6582ced" class="">1.8 - Visual Anagrams</h2><p id="148b7adc-c6d1-805f-9aa5-f9f266eaddfc" class="">A neat trick we can do with our model is modify the algorithm a bit to produce optical illusions! In order to do this we will predict the noise for two different prompts, one right-side up and another upside down. </p><p id="148b7adc-c6d1-8000-b602-e15d8323feff" class="">
+</p><figure id="148b7adc-c6d1-808a-8765-e739c071ca78" class="image"><a href="image%209.png"><img style="width:389px" src="image%209.png"/></a></figure><p id="148b7adc-c6d1-80e9-9a20-dbd88fa12577" class="">This allows us to create optical illusions, where the human eye will perceive different images depending on the orientation they are looking at the image.</p><p id="148b7adc-c6d1-8036-b777-d0e9d87b143e" class="">
+</p><p id="148b7adc-c6d1-8030-8102-c9ee27a5b4a5" class="">Prompt_1 = “an oil painting of people around a campfire”</p><p id="148b7adc-c6d1-80fd-bfff-d233526f79bf" class="">Prompt_2 = “an oil painting of an old man” (upside down)</p><div id="149b7adc-c6d1-809c-bac5-e0f7f33dac23" class="column-list"><div id="149b7adc-c6d1-80c2-b812-cfff4aee8809" style="width:50%" class="column"><figure id="148b7adc-c6d1-80ca-a5b2-c5db5994f164" class="image"><a href="2b2af462-283b-4e1c-838c-097a2044aa53.png"><img style="width:320px" src="2b2af462-283b-4e1c-838c-097a2044aa53.png"/></a></figure><p id="149b7adc-c6d1-80cf-a674-de6d36bf05a7" class="">
+</p></div><div id="149b7adc-c6d1-80a0-83e9-d37f810abb57" style="width:50%" class="column"><figure id="149b7adc-c6d1-8009-a8f0-e7755f0b6124" class="image"><a href="image%2010.png"><img style="width:336px" src="image%2010.png"/></a></figure></div></div><p id="149b7adc-c6d1-80ff-a997-c6f79ab041db" class="">Prompt 1 = a photo of a hipster barista</p><p id="149b7adc-c6d1-805d-b9f3-e42a4d9cfe35" class="">Prompt 2 = a photo of a dog</p><figure id="149b7adc-c6d1-80f6-9652-e344130e7290" class="image"><a href="image%2011.png"><img style="width:432px" src="image%2011.png"/></a></figure><p id="149b7adc-c6d1-8085-8dc6-c719435a5a2f" class="">Prompt 1 = a photo of the amalfi cost</p><p id="149b7adc-c6d1-8015-b59f-d409fe93c6a2" class="">Prompt 2 = a photo of a dog</p><figure id="149b7adc-c6d1-8075-96d6-e8103156b555" class="image"><a href="coast_dog.png"><img style="width:336px" src="coast_dog.png"/></a></figure><h2 id="148b7adc-c6d1-8041-aa8b-e8f3c58e170f" class="">1.9 - Hybrid Images</h2><p id="148b7adc-c6d1-8096-91d7-ce783ee7fcf9" class="">Similar to our frequency project, we can create hybrid images where you’ll see one image up close and another from far away. We can do this by simply predicting the noise for one prompt at low frequencies and another prompt at high frequencies. </p><p id="148b7adc-c6d1-80f5-809b-ffed6133d1b8" class="">
+</p><p id="148b7adc-c6d1-80e0-ab6f-e53407a8a391" class="">
+</p><figure id="148b7adc-c6d1-808b-b746-e7b1e6c34e63" class="image"><a href="a234a0a5-df87-4d43-bc22-3cf90c575ef9.png"><img style="width:323.2323232323232px" src="a234a0a5-df87-4d43-bc22-3cf90c575ef9.png"/></a><figcaption>a lithograph of skulls (far)<br/>a lithograph of waterfalls (close)<br/></figcaption></figure><p id="149b7adc-c6d1-80d8-a091-e5fd26ff7199" class="">
+</p><p id="148b7adc-c6d1-800b-96ce-cb1debf12fe1" class="">low_prompt = a lithograph of waterfalls</p><p id="149b7adc-c6d1-8033-bb9f-d63d7c741462" class="">high_prompt = an oil painting of a snowy mountain village</p><div id="149b7adc-c6d1-8010-b74e-c544d7ae0d86" class="column-list"><div id="149b7adc-c6d1-80f9-b305-f69fa962a783" style="width:37.5%" class="column"><figure id="149b7adc-c6d1-8057-b7b9-f3d516b55ef9" class="image"><a href="image%2012.png"><img style="width:240px" src="image%2012.png"/></a></figure></div><div id="149b7adc-c6d1-80c0-9262-d61d50e498fc" style="width:62.5%" class="column"><figure id="149b7adc-c6d1-80d3-b03c-fae909d3a55d" class="image"><a href="image%2013.png"><img style="width:240px" src="image%2013.png"/></a></figure></div></div><p id="149b7adc-c6d1-8017-b01e-c5433819f551" class="">
+</p><p id="149b7adc-c6d1-80c0-b12f-df5398ac3c33" class="">low_prompt = a photo of the amalfi cost</p><p id="149b7adc-c6d1-80a8-9af8-df3f3e850db3" class="">high_prompt = a lithograph of a skull</p><figure id="149b7adc-c6d1-8079-938e-efc5cc06f5ec" class="image"><a href="image%2014.png"><img style="width:240px" src="image%2014.png"/></a></figure><h1 id="148b7adc-c6d1-8094-aef5-f94ff94aa517" class="">Part 2: Diffusion Models from Scratch</h1><p id="148b7adc-c6d1-80a7-9ad8-e48df9f92315" class="">In this section, we will be building three Neural Networks from scratch. </p><h2 id="148b7adc-c6d1-8071-9965-fd80334d5153" class="">Unconditional Unet</h2><figure id="148b7adc-c6d1-80e6-a877-e3cd71949b7c" class="image"><a href="image%2015.png"><img style="width:707.9874877929688px" src="image%2015.png"/></a></figure><p id="148b7adc-c6d1-8070-a517-cc12e250ca62" class="">
+</p><p id="148b7adc-c6d1-80f8-a65e-cd3a5fe599da" class="">Let’s load the MINST dataset and some levels of noise to it `noise=[0, 0.2, 0.4, 0.6, 0.8, 1.0]`</p><figure id="148b7adc-c6d1-8074-bafd-f0a0928077cb" class="image"><a href="image%2016.png"><img style="width:205px" src="image%2016.png"/></a></figure><p id="148b7adc-c6d1-8050-bdd9-eb6a4b8782e7" class=""><strong>Results of denoising</strong></p><p id="148b7adc-c6d1-80b6-b54b-d56d07f12a98" class="">
+</p><p id="148b7adc-c6d1-8020-bb2a-c17bcdd93589" class="">1 epoch</p><div id="148b7adc-c6d1-80cd-8f59-fee4dbdbfe68" class="column-list"><div id="148b7adc-c6d1-8056-a36d-e5c9d0392eff" style="width:12.5%" class="column"><p id="148b7adc-c6d1-8027-9df9-edb5fd41961c" class="">Input:</p><p id="148b7adc-c6d1-8067-93d5-ebce90d63ff0" class="">
+</p><p id="148b7adc-c6d1-80b0-8cf6-e55702982c50" class="">
+</p><p id="148b7adc-c6d1-8023-82ea-fa8e29cde5ee" class="">
+</p><p id="148b7adc-c6d1-80c7-8d37-eef1d9f55f05" class="">Noisy:</p><p id="148b7adc-c6d1-809f-a52f-d6eaaaaa3450" class="">
+</p><p id="148b7adc-c6d1-8033-add8-efdf5e65efa5" class="">
+</p><p id="148b7adc-c6d1-807b-b156-e294bd644463" class="">Output:</p><p id="148b7adc-c6d1-8012-ace4-d0febc0eaf9b" class="">
+</p><p id="148b7adc-c6d1-80ac-b877-e9990da6eecf" class="">
+</p></div><div id="148b7adc-c6d1-8013-b9a2-d1e1129e6a3d" style="width:87.5%" class="column"><figure id="148b7adc-c6d1-8075-b252-e4876b6eb2be" class="image"><a href="b5df82a6-2158-4b0d-93de-3090ac88a9ec.png"><img style="width:593.9200000000001px" src="b5df82a6-2158-4b0d-93de-3090ac88a9ec.png"/></a></figure></div></div><p id="148b7adc-c6d1-80cf-b8b8-efc334be14b4" class="">5 epochs</p><div id="148b7adc-c6d1-80c9-b175-f671ccd28076" class="column-list"><div id="148b7adc-c6d1-806b-b60f-ead68bb89347" style="width:12.5%" class="column"><p id="148b7adc-c6d1-8082-ae79-dcf770d0b272" class="">Input:</p><p id="148b7adc-c6d1-806a-8b40-d3e7d5285654" class="">
+</p><p id="148b7adc-c6d1-8009-8183-c89b03513d79" class="">
+</p><p id="148b7adc-c6d1-80a0-8b58-f3354120dd98" class="">
+</p><p id="148b7adc-c6d1-801a-b76e-f432af1d3f9c" class="">Noisy:</p><p id="148b7adc-c6d1-8081-a9a5-f3fccbe099d1" class="">
+</p><p id="148b7adc-c6d1-802e-bb73-ecde16d231c4" class="">
+</p><p id="148b7adc-c6d1-80a5-90c0-ce51b87e8234" class="">Output:</p></div><div id="148b7adc-c6d1-80b5-98fb-c4c416505bf6" style="width:87.5%" class="column"><figure id="148b7adc-c6d1-8094-b9ee-dad8cdc6ba62" class="image"><a href="e7b94c45-be42-43c6-990a-67a4dd3cedbe.png"><img style="width:545.8823529411765px" src="e7b94c45-be42-43c6-990a-67a4dd3cedbe.png"/></a></figure><p id="148b7adc-c6d1-8064-9196-d191692c9ac8" class="">
+</p></div></div><p id="148b7adc-c6d1-8069-85b9-d14fb3e4d40c" class="">Distributed noise levels</p><p id="148b7adc-c6d1-8080-95a1-da0427c67445" class="">Here, I pass in a batch of images and vary the noise levels for the model to denoise. </p><p id="148b7adc-c6d1-805e-8f17-cc7472533fd1" class=""><code>sigma=[0, 0.2, 0.4, 0.6, 0.8, 1.0]</code></p><figure id="148b7adc-c6d1-8020-bb3c-ef5acab815ba" class="image"><a href="image%2017.png"><img style="width:235px" src="image%2017.png"/></a></figure><p id="148b7adc-c6d1-80dc-8c87-d90cf6cd11c1" class="">
+</p><p id="148b7adc-c6d1-80f8-8c2c-d3f8939b127c" class="">Training Loss</p><figure id="149b7adc-c6d1-80ed-bf64-ce930e14a954" class="image"><a href="image%2018.png"><img style="width:652px" src="image%2018.png"/></a></figure><h2 id="148b7adc-c6d1-8006-9b6a-e63cfc490a2d" class="">Time-conditioned Unet</h2><p id="148b7adc-c6d1-803d-bdce-ff64eff572cc" class="">To produce clearer images, we can implement iterative denoising. </p><p id="148b7adc-c6d1-8081-aba6-e50e13fbc00a" class="">
+</p><p id="148b7adc-c6d1-8078-86f5-d9d45be3eccd" class="">We will be inserting two FCBlocks into our unet architecture. </p><figure id="148b7adc-c6d1-8046-ab1f-e9998162b0a5" class="image"><a href="image%2019.png"><img style="width:707.9874877929688px" src="image%2019.png"/></a></figure><p id="148b7adc-c6d1-803d-a82d-e8c2bd76568e" class=""><strong>Results</strong></p><p id="148b7adc-c6d1-80a8-bdc3-e514dd7e1955" class="">
+</p><p id="148b7adc-c6d1-8092-9c0c-e9096b73d64d" class="">Images after 5 epochs of training</p><figure id="148b7adc-c6d1-8008-b743-d38afdcece76" class="image"><a href="image%2020.png"><img style="width:313px" src="image%2020.png"/></a></figure><p id="148b7adc-c6d1-80cb-8fd5-c81abf6d33d8" class="">Images after 20 epochs of training</p><figure id="148b7adc-c6d1-80f8-845f-e277cb85b6fe" class="image"><a href="image%2021.png"><img style="width:336px" src="image%2021.png"/></a></figure><p id="148b7adc-c6d1-80f8-8414-eb97ad722092" class="">Training Loss</p><figure id="149b7adc-c6d1-8052-bf25-c034bb1709cc" class="image"><a href="2._time_plot.png"><img style="width:707.9750366210938px" src="2._time_plot.png"/></a></figure><p id="148b7adc-c6d1-800b-91bb-e3f2a591512f" class="">Our images look better but we can do better!</p><h2 id="148b7adc-c6d1-80a2-a738-f18dd2ae733e" class="">Class-conditioned Unet</h2><p id="148b7adc-c6d1-80ac-ab68-ddca8bc7f9f7" class="">In this Unet, we will add two more FCBlocks into our architecture as one-hot vectors. </p><p id="148b7adc-c6d1-80d2-b61b-df9a586f7adb" class="">
+</p><p id="148b7adc-c6d1-80d6-8c87-fb9905e1e127" class="">Results</p><figure id="148b7adc-c6d1-80cb-897e-dd691a909dc1" class="image"><a href="image%2022.png"><img style="width:393px" src="image%2022.png"/></a></figure><p id="148b7adc-c6d1-8001-91c2-d71eab35fcc7" class="">
+</p><figure id="148b7adc-c6d1-80bd-b189-c3652241c130" class="image"><a href="image%2023.png"><img style="width:406px" src="image%2023.png"/></a></figure><p id="148b7adc-c6d1-8095-94b6-f442e90aa5a4" class="">
+</p><p id="148b7adc-c6d1-80fa-a1c8-d2bf943cdd66" class="">Training Loss </p><figure id="149b7adc-c6d1-80d1-abbf-e40a275c9d59" class="image"><a href="2.class.plot.png"><img style="width:707.9874877929688px" src="2.class.plot.png"/></a></figure><p id="148b7adc-c6d1-8085-8ebf-cbfa1b3841ee" class="">Now our images are clear as day!</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
